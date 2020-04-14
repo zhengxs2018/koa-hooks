@@ -1,0 +1,79 @@
+{
+  "name": "koa-hooks",
+  "version": "0.0.0",
+  "description": "React hooks & koa 风格的轻量级 web 框架",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm:watch\" \"npm:examples\"",
+    "examples": "npm run build && yarn workspace @zhengxs/koa-hooks-examples dev",
+    "build": "tsc -b",
+    "watch": "tsc -b -w --preserveWatchOutput",
+    "docs:build": "typedoc --options typedoc.js packages/koa-hooks",
+    "test": "jest",
+    "cov": "jest --coverage",
+    "ci": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "lint": "prettier --parser=typescript  *.js ./packages/**/*.ts --write",
+    "commit": "git-cz",
+    "clean": "rimraf docs packages/*/dist packages/*/tsconfig.tsbuildinfo",
+    "clean:force": "npm run clean && rimraf packages/*/node_modules",
+    "release": "cross-env HUSKY_BYPASS=true lerna publish from-git --yes",
+    "canary": "cross-env HUSKY_BYPASS=true lerna publish --canary --npm-tag=next --yes",
+    "preversion": "npm run lint",
+    "prepublishOnly": "npm run build"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "./cz-config.js"
+    }
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^25.1.5",
+    "@types/node": "^13.11.0",
+    "commitizen": "^4.0.3",
+    "concurrently": "^5.1.0",
+    "cross-env": "^7.0.2",
+    "cz-conventional-changelog": "^3.1.0",
+    "cz-customizable": "^6.2.0",
+    "globby": "^11.0.0",
+    "husky": "^4.2.3",
+    "jest": "^25.2.7",
+    "lerna": "^3.20.2",
+    "lint-staged": "^10.1.1",
+    "prettier": "^2.0.2",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^25.3.0",
+    "ts-node": "^8.8.2",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typedoc": "^0.17.4",
+    "typescript": "^3.8.3"
+  },
+  "engines": {
+    "node": ">=11.0.0",
+    "npm": ">=6.0.0"
+  },
+  "author": {
+    "name": "zhengxs",
+    "email": "zhengxs2018@foxmail.com"
+  },
+  "license": "MIT"
+}

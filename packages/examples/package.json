@@ -1,0 +1,31 @@
+{
+  "name": "@zhengxs/koa-hooks-examples",
+  "private": true,
+  "version": "0.0.0",
+  "description": "@zhengxs/koa-hooks 示例工程",
+  "scripts": {
+    "dev": "ts-node-dev --interval 1200 --debounce 1000 --clear --respawn --transpileOnly --no-notify --dedupe ./src/app.ts"
+  },
+  "keywords": [
+    "zhengxs",
+    "koa-hooks",
+    "nodejs",
+    "typescript"
+  ],
+  "dependencies": {
+    "@zhengxs/koa-hooks": "0.0.0",
+    "tslib": "^1.9.0"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.44"
+  },
+  "engines": {
+    "node": ">= 10",
+    "npm": ">= 6"
+  },
+  "author": {
+    "name": "zhengxs",
+    "email": "zhengxs2018@foxmail.com"
+  },
+  "license": "MIT"
+}

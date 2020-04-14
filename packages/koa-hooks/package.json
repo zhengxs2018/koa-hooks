@@ -1,0 +1,44 @@
+{
+  "name": "@zhengxs/koa-hooks",
+  "version": "0.0.0",
+  "description": "React.js hooks + koa.js 风格的轻量级 web 框架",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "react hooks",
+    "koa",
+    "framework",
+    "nodejs",
+    "typescript"
+  ],
+  "peerDependencies": {
+    "tslib": "^1.9.0"
+  },
+  "dependencies": {
+    "path-to-regexp": "^6.1.0"
+  },
+  "devDependencies": {},
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">= 10",
+    "npm": ">= 6"
+  },
+  "homepage": "https://github.com/zhengxs2018/koa-hooks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhengxs2018/koa-hooks"
+  },
+  "bugs": {
+    "url": "https://github.com/zhengxs2018/koa-hooks/issues"
+  },
+  "author": {
+    "name": "zhengxs",
+    "email": "zhengxs2018@foxmail.com"
+  },
+  "license": "MIT"
+}
