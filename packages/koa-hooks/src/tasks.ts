@@ -7,15 +7,14 @@ export type TaskHandler<T> = (value: T, next: NextHandler<T>) => TaskResult<any>
 
 export type SyncNextHandler<T> = (value: T) => T
 export type SyncParallelTaskHandler<T> = (value: T) => T
-export type SyncSeriesTaskHandler<T> = (
-  value: T,
-  next: SyncNextHandler<T>
-) => T
+export type SyncSeriesTaskHandler<T> = (value: T, next: SyncNextHandler<T>) => T
 export type SyncTaskHandler<T> = (value: T, next: SyncNextHandler<T>) => T
 
-
 /** 串行任务处理函数 */
-export type SeriesTaskHandler<T> = (value: T,  next: NextHandler<T>) => TaskResult<any>
+export type SeriesTaskHandler<T> = (
+  value: T,
+  next: NextHandler<T>
+) => TaskResult<any>
 
 /** 串行任务队列管理
  *
@@ -23,7 +22,9 @@ export type SeriesTaskHandler<T> = (value: T,  next: NextHandler<T>) => TaskResu
  *
  * @returns 可执行函数
  */
-export function series<T = any>(...handlers: (SeriesTaskHandler<T>|SeriesTaskHandler<T>[])[]): (value: T, next?: NextHandler<T>) => TaskResult<any> {
+export function series<T = any>(
+  ...handlers: (SeriesTaskHandler<T> | SeriesTaskHandler<T>[])[]
+): (value: T, next?: NextHandler<T>) => TaskResult<any> {
   const tasks = flatten<SeriesTaskHandler<T>>(...handlers)
   return async (value, next) => runTasks<T>(tasks.concat(next || []), value)
 }
@@ -110,11 +111,13 @@ export async function runAllTasks<T = any>(
   tasks: TaskHandler<T>[],
   initialValue: T
 ): Promise<T> {
-  await Promise.all(tasks.map(task => task(initialValue, () => void 0)))
+  await Promise.all(tasks.map((task) => task(initialValue, () => void 0)))
   return initialValue
 }
 
-export function seriesSync<T = any>(...handlers: (SyncTaskHandler<T>|SyncTaskHandler<T>[])[]): (value: T, next?: SyncNextHandler<T>) => any {
+export function seriesSync<T = any>(
+  ...handlers: (SyncTaskHandler<T> | SyncTaskHandler<T>[])[]
+): (value: T, next?: SyncNextHandler<T>) => any {
   const tasks = flatten<SyncSeriesTaskHandler<T>>(...handlers)
   return (value, next) => runSyncTasks<T>(tasks.concat(next || []), value)
 }
@@ -143,10 +146,7 @@ export function runSyncTasks<T = any>(
 
     const task = tasks[i]
     if (typeof task === 'function') {
-      const currentValue = task(
-        perviousValue,
-        dispatch.bind(null, i + 1)
-      )
+      const currentValue = task(perviousValue, dispatch.bind(null, i + 1))
       if (currentValue !== undefined) {
         perviousValue = currentValue
       }

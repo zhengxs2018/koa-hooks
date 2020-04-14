@@ -15,6 +15,6 @@ module.exports = {
     '**/history/**',
     '**/*.spec.ts',
     '**/tests/**/*.ts',
-  ]
+  ],
   // lernaExclude: ['@zhengxs/koa-hooks-examples'],
 }

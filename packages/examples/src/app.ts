@@ -1,8 +1,14 @@
 import { Server } from 'http'
 
-import { useCallback, useRouteMatch, redirect, urlFor, listen } from '@zhengxs/koa-hooks'
+import {
+  useCallback,
+  useRouteMatch,
+  redirect,
+  urlFor,
+  listen,
+} from '@zhengxs/koa-hooks'
 
-useRouteMatch('product.detail', '/api/product/:id', ctx => {
+useRouteMatch('product.detail', '/api/product/:id', (ctx) => {
   ctx.status = 200
   ctx.type = 'application/json'
   ctx.body = ctx.params
@@ -13,11 +19,11 @@ useRouteMatch('/api/user/info', () => {
   redirect(urlFor('login'))
 })
 
-useRouteMatch('login', '/login', ctx => {
+useRouteMatch('login', '/login', (ctx) => {
   ctx.body = 'This login page.'
 })
 
-useCallback(ctx => {
+useCallback((ctx) => {
   ctx.body = `hello,world`
 })
 

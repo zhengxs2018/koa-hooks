@@ -4,14 +4,14 @@ import { isObject } from 'util'
 
 import { lookup } from './hooks'
 
-import { create, resolve ,destroy,RequestContext } from './context'
+import { create, resolve, destroy, RequestContext } from './context'
 
 export function redirect(uri: string): void
 export function redirect(uri: string, code?: number): void {
   const { res } = resolve()
 
-  res.writeHead(code || 301, { 'Location': uri });
-  res.end();
+  res.writeHead(code || 301, { Location: uri })
+  res.end()
 }
 
 export type ErrorHandler = (
@@ -43,7 +43,9 @@ export function respond(ctx: RequestContext) {
   ctx.res.writeHead(status || 200, {
     'Content-Type': type || 'text/plain',
   })
-  ctx.res.end(isObject(body) || Array.isArray(body) ? JSON.stringify(body) : body)
+  ctx.res.end(
+    isObject(body) || Array.isArray(body) ? JSON.stringify(body) : body
+  )
 }
 
 /** 请求监听函数

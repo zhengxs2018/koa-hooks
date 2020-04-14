@@ -20,7 +20,6 @@ export function useCallback(fn: RequestHandler): void {
   callbacks.push(fn)
 }
 
-
 /** 获取当前请求上下文 */
 export function useContext(): RequestContext {
   return resolve()
