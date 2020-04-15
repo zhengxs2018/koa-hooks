@@ -1,5 +1,5 @@
 import { sleep } from '../../src/util'
-import { parallel, runAllTasks } from '../../src/tasks'
+import { parallel } from '../../src/tasks'
 
 describe('parallel.spec.ts', () => {
   it('parallel.queue({ plugins: string[] })', async () => {
@@ -42,7 +42,7 @@ describe('parallel.spec.ts', () => {
     type Context = {
       todos: { priority: number; todo: string }[]
     }
-    const tasks = [
+    const run = parallel([
       parallel<Context>(
         async (ctx) => {
           await sleep(100)
@@ -94,9 +94,9 @@ describe('parallel.spec.ts', () => {
           })
         }
       ),
-    ]
+    ])
 
-    const myLearnPlan = await runAllTasks(tasks, {
+    const myLearnPlan = await run({
       todos: [],
     })
 

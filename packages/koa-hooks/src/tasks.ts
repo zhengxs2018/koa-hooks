@@ -87,32 +87,19 @@ export async function runTasks<T = any>(
 export function parallel<T = any>(
   handler: ParallelTaskHandler<T> | ParallelTaskHandler<T>[],
   ...handlers: ParallelTaskHandler<T>[]
-): TaskHandler<T> {
+): (value: T, next?: NextHandler<T>) => TaskResult<any> {
   const tasks = flatten<ParallelTaskHandler<T>>(handler, ...handlers)
 
   return async function run(value, next): Promise<T> {
-    const result = await runAllTasks(tasks, value)
+    await Promise.all(tasks.map((task) => task(value)))
 
     if (typeof next === 'function') {
-      const rv = await next(result)
-      return rv === undefined ? result : rv
+      const result = await next(value)
+      return result === undefined ? value : result
     }
 
-    return result
+    return value
   }
-}
-
-/** 运行并行任务列表
- *
- * @param tasks 任务队列
- * @param initialValue 初始值
- */
-export async function runAllTasks<T = any>(
-  tasks: TaskHandler<T>[],
-  initialValue: T
-): Promise<T> {
-  await Promise.all(tasks.map((task) => task(initialValue, () => void 0)))
-  return initialValue
 }
 
 export function seriesSync<T = any>(
