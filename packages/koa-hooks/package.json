@@ -1,6 +1,6 @@
 {
   "name": "@zhengxs/koa-hooks",
-  "version": "0.0.1-0",
+  "version": "0.0.1-beta",
   "description": "React.js hooks + koa.js 风格的轻量级 web 框架",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,6 +22,7 @@
     "access": "public"
   },
   "files": [
+    "README.md",
     "dist"
   ],
   "engines": {
