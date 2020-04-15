@@ -17,9 +17,9 @@ $ npm install @zhengxs/koa-hooks --save
 **hello,world**
 
 ```javascript
-import { useCallback, listen } from '@zhengxs/koa-hooks'
+import { use, listen } from '@zhengxs/koa-hooks'
 
-useCallback(async ctx => {
+use(async ctx => {
   ctx.body = `hello,world`
 })
 
@@ -33,24 +33,24 @@ listen(8080, () => {
 ```javascript
 import { Server } from 'http'
 
-import { useCallback, useRouteMatch, redirect, urlFor, listen } from '@zhengxs/koa-hooks'
+import { use, route, redirect, urlFor, listen } from '@zhengxs/koa-hooks'
 
-useRouteMatch('product.detail', '/api/product/:id', ctx => {
+route('product.detail', '/api/product/:id', ctx => {
   ctx.status = 200
   ctx.type = 'application/json'
   ctx.body = ctx.params
 })
 
-useRouteMatch('/api/user/info', () => {
+route('/api/user/info', () => {
   console.log('用户未登陆，跳转到登陆页')
   redirect(urlFor('login'))
 })
 
-useRouteMatch('login', '/login', ctx => {
+route('login', '/login', ctx => {
   ctx.body = 'This login page.'
 })
 
-useCallback(ctx => {
+use(ctx => {
   ctx.body = `hello,world`
 })
 

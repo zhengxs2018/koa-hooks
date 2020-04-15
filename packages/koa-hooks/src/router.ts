@@ -1,7 +1,7 @@
 import { METHODS } from 'http'
 import { match, compile, PathFunction } from 'path-to-regexp'
 
-import { useCallback, RequestHandler } from './hooks'
+import { use, RequestHandler } from './hooks'
 
 /** 命名路由规则 */
 const namedRoutes: Record<string, PathFunction> = {}
@@ -20,7 +20,7 @@ export function urlFor(name: string, params: Record<string, any> = {}): string {
  * @param path         匹配路径
  * @param callback     回调函数
  */
-export function useRouteMatch(path: string, callback: RequestHandler): void
+export function route(path: string, callback: RequestHandler): void
 
 /** 使用路由匹配
  *
@@ -28,7 +28,7 @@ export function useRouteMatch(path: string, callback: RequestHandler): void
  * @param path         匹配路径
  * @param callback     回调函数
  */
-export function useRouteMatch(
+export function route(
   name: string,
   path: string,
   callback: RequestHandler
@@ -40,7 +40,7 @@ export function useRouteMatch(
  * @param path         匹配路径
  * @param callback     回调函数
  */
-export function useRouteMatch(
+export function route(
   method: string,
   path: string,
   callback: RequestHandler
@@ -53,13 +53,13 @@ export function useRouteMatch(
  * @param path         匹配路径
  * @param callback     回调函数
  */
-export function useRouteMatch(
+export function route(
   name: string,
   method: string,
   path: string,
   callback: RequestHandler
 ): void
-export function useRouteMatch() {
+export function route() {
   const [name, method, path, callback] = normalizeArgs(Array.from(arguments))
 
   // 命名路由
@@ -69,7 +69,7 @@ export function useRouteMatch() {
 
   const parse = match(path)
 
-  useCallback((ctx, next) => {
+  use((ctx, next) => {
     const req = ctx.req
     const result = parse(req.url || '/')
 

@@ -1,29 +1,61 @@
 import { Server } from 'http'
+import { isNullOrUndefined } from 'util'
 
-import {
-  useCallback,
-  useRouteMatch,
-  redirect,
-  urlFor,
-  listen,
-} from '@zhengxs/koa-hooks'
+import { use, route, redirect, urlFor, listen } from '@zhengxs/koa-hooks'
 
-useRouteMatch('product.detail', '/api/product/:id', (ctx) => {
+import { useSession } from './session'
+
+route('product.detail', '/api/product/:id', (ctx) => {
   ctx.status = 200
   ctx.type = 'application/json'
   ctx.body = ctx.params
 })
 
-useRouteMatch('/api/user/info', () => {
-  // 可定重定向
-  redirect(urlFor('login'))
+route('/api/user/info', (ctx) => {
+  const sess = useSession()
+  const userId = sess.userId
+
+  // 用户未登陆就重定向到登陆页
+  if (isNullOrUndefined(userId)) {
+    return redirect(urlFor('login'))
+  }
+
+  ctx.status = 200
+  ctx.type = 'application/json'
+  ctx.body = {
+    userId: userId,
+    nickname: '张三',
+  }
 })
 
-useRouteMatch('login', '/login', (ctx) => {
-  ctx.body = 'This login page.'
+route('POST', '/login', (ctx) => {
+  const sess = useSession()
+
+  // 写入用户 id
+  sess.userId = 1
+
+  ctx.status = 200
+  ctx.type = 'application/json'
+  ctx.body = { code: 200, message: 'ok' }
 })
 
-useCallback((ctx) => {
+route('login', '/login', (ctx) => {
+  ctx.status = 200
+  ctx.type = 'text/plan'
+  ctx.body = 'This is login page'
+})
+
+route('/view', (ctx) => {
+  const sess = useSession()
+
+  sess.view = sess.view || 0
+
+  ctx.status = 200
+  ctx.type = 'application/json'
+  ctx.body = { view: sess.view++ }
+})
+
+use((ctx) => {
   ctx.body = `hello,world`
 })
 

@@ -1,6 +1,6 @@
 export { RequestContext } from './context'
-export { useCallback, useContext } from './hooks'
-
+export { use, useEffect, useContext } from './hooks'
+export { memo } from './memo'
 export {
   redirect,
   requestListener,
@@ -11,7 +11,7 @@ export {
   onErrorHandler,
 } from './server'
 
-export { useRouteMatch, urlFor } from './router'
+export { route, urlFor } from './router'
 
 export * from './util'
 export * from './tasks'
