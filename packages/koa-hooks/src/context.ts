@@ -1,6 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { triggerAsyncId } from 'async_hooks'
 
+import { ParallelTaskHandler } from './tasks'
+
 /** 请求上下文 */
 export interface RequestContext {
   req: IncomingMessage
@@ -14,6 +16,12 @@ export interface RequestContext {
 
   /** 响应内容 */
   body: any
+
+  /** 需要在请求结束后处理的函数 */
+  handlers: ParallelTaskHandler<RequestContext>[]
+
+  /** 缓存对象 */
+  cache: WeakMap<any, any>
 
   [key: string]: any
 }
@@ -33,6 +41,8 @@ export function create(req: IncomingMessage, res: ServerResponse) {
 
   ctx.req = req
   ctx.res = res
+  ctx.handlers = []
+  ctx.cache = new WeakMap()
   ctx.state = {}
 
   contextsMap[triggerAsyncId()] = ctx

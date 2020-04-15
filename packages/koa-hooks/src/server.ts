@@ -2,9 +2,9 @@ import { ListenOptions, Server } from 'net'
 import { createServer as serve, IncomingMessage, ServerResponse } from 'http'
 import { isObject } from 'util'
 
-import { lookup } from './hooks'
-
 import { create, resolve, destroy, RequestContext } from './context'
+
+import { lookup, cleanup } from './hooks'
 
 export function redirect(uri: string): void
 export function redirect(uri: string, code?: number): void {
@@ -61,9 +61,9 @@ export async function requestListener(
   const ctx = create(req, res)
 
   try {
-    // 开始递归处理
     await lookup(ctx)
     await respond(ctx)
+    await cleanup(ctx)
   } catch (err) {
     errorhandler(err, ctx)
   } finally {
