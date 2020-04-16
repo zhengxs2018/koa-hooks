@@ -30,15 +30,15 @@ function getSessionId(): string {
   return sessId
 }
 
-function createSession(sessId: string){
+function createSession(sessId: string) {
   if (store.hasOwnProperty(sessId)) {
     return store[sessId]
   }
 
-  return store[sessId] = {}
+  return (store[sessId] = {})
 }
 
-export const useSession = memo<Session>(() =>{
+export const useSession = memo<Session>(() => {
   const sessId = getSessionId()
   const session = createSession(sessId)
 

@@ -62,10 +62,11 @@
     "editor.formatOnSave":  false,
   },
   "cSpell.words": [
-    "middlewares",
     "globby",
-    "typedoc",
-    "todos"
+    "middlewares",
+    "todos",
+    "tsnd",
+    "typedoc"
   ],
   "cSpell.ignoreWords": [
     "tslib",

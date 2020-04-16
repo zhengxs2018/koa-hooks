@@ -1,8 +1,5 @@
-.history/
+**/.history/
+**/node_modules/
 
-node_modules/
-
-dist/
-dist-docs/
-
-run/
+**/dist/
+**/dist-docs/

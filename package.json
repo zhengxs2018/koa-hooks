@@ -4,17 +4,16 @@
   "description": "React hooks & koa 风格的轻量级 web 框架",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm:watch\" \"npm:examples\"",
-    "examples": "npm run build && yarn workspace @zhengxs/koa-hooks-examples dev",
+    "dev": "node ./bin/dev.js",
     "build": "tsc -b",
     "watch": "tsc -b -w --preserveWatchOutput",
     "docs:build": "typedoc --options typedoc.js packages/koa-hooks",
     "test": "jest",
     "cov": "jest --coverage",
     "ci": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "lint": "prettier --parser=typescript  *.js ./packages/**/*.ts --write",
+    "lint": "prettier --parser=typescript  **/*.js ./packages/**/*.ts --write",
     "commit": "git-cz",
-    "clean": "rimraf docs packages/*/dist packages/*/tsconfig.tsbuildinfo",
+    "clean": "rimraf docs packages/**/dist packages/**/tsconfig.tsbuildinfo",
     "clean:force": "npm run clean && rimraf packages/*/node_modules",
     "release": "cross-env HUSKY_BYPASS=true lerna publish from-git --yes",
     "canary": "cross-env HUSKY_BYPASS=true lerna publish --canary --npm-tag=next --yes",
@@ -22,7 +21,8 @@
     "prepublishOnly": "npm run build"
   },
   "workspaces": [
-    "packages/*"
+    "packages/koa-hooks",
+    "packages/examples/*"
   ],
   "husky": {
     "hooks": {
@@ -45,8 +45,12 @@
       "config": "./cz-config.js"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "inquirer": "^7.1.0"
+  },
   "devDependencies": {
+    "@types/concurrently": "^5.1.0",
+    "@types/inquirer": "^6.5.0",
     "@types/jest": "^25.1.5",
     "@types/node": "^13.11.0",
     "commitizen": "^4.0.3",

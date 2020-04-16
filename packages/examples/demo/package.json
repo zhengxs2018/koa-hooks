@@ -1,27 +1,24 @@
 {
-  "name": "@zhengxs/koa-hooks-examples",
+  "name": "koa-hooks-demo",
   "private": true,
   "version": "0.0.0",
-  "description": "@zhengxs/koa-hooks 示例工程",
-  "scripts": {
-    "dev": "ts-node-dev --interval 1200 --debounce 1000 --clear --respawn --transpileOnly --no-notify --dedupe ./src/app.ts"
-  },
+  "description": "koa-hooks 示例",
+  "main": "./src/app.ts",
   "keywords": [
-    "zhengxs",
     "koa-hooks",
+    "demo",
     "nodejs",
     "typescript"
   ],
   "dependencies": {
-    "@zhengxs/koa-hooks": "0.0.0",
+    "@zhengxs/koa-hooks": "^0.0.1-beta",
     "cookies": "^0.8.0",
     "tslib": "^1.9.0",
     "uuid": "^7.0.3"
   },
   "devDependencies": {
     "@types/cookies": "^0.7.4",
-    "@types/uuid": "^7.0.2",
-    "ts-node-dev": "^1.0.0-pre.44"
+    "@types/uuid": "^7.0.2"
   },
   "engines": {
     "node": ">= 10",
