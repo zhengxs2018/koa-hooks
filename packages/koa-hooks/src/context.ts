@@ -44,6 +44,9 @@ export function create(req: IncomingMessage, res: ServerResponse) {
   ctx.handlers = []
   ctx.cache = new WeakMap()
   ctx.state = {}
+  ctx.status = 404
+  ctx.type = 'text/plan'
+  ctx.body = 'document not found'
 
   contextsMap[triggerAsyncId()] = ctx
 

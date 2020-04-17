@@ -54,9 +54,13 @@ route('/view', (ctx) => {
 
   sess.view = sess.view || 0
 
-  const link = urlFor('product.detail', { id: 1 }, {
-    query: '?sort=createAt'
-  })
+  const link = urlFor(
+    'product.detail',
+    { id: 1 },
+    {
+      query: '?sort=createAt',
+    }
+  )
 
   ctx.status = 200
   ctx.type = 'application/json'
@@ -64,6 +68,7 @@ route('/view', (ctx) => {
 })
 
 use((ctx) => {
+  ctx.status = 200
   ctx.body = `hello,world`
 })
 
