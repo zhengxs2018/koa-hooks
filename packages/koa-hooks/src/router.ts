@@ -1,4 +1,6 @@
 import { METHODS } from 'http'
+import { parse, URLSearchParams } from 'url'
+
 import { match, compile, PathFunction } from 'path-to-regexp'
 
 import { use, RequestHandler } from './hooks'
@@ -6,13 +8,24 @@ import { use, RequestHandler } from './hooks'
 /** 命名路由规则 */
 const namedRoutes: Record<string, PathFunction> = {}
 
+export type URLForOptions = {
+  query: string | Record<string | number, any>
+}
+
 /** 根据路由名称和参数返回路由地址
  *
  * @param name         路由名称
  * @param params       路由参数
  */
-export function urlFor(name: string, params: Record<string, any> = {}): string {
-  return namedRoutes[name](params)
+export function urlFor(name: string, params?: Record<string, any>, options?: URLForOptions): string {
+  const query = options?.query
+
+  const uri = namedRoutes[name](params || {})
+  if (query) {
+    return `${uri}?${new URLSearchParams(query).toString()}`
+  }
+
+  return uri
 }
 
 /** 使用路由匹配
@@ -67,18 +80,24 @@ export function route() {
     namedRoutes[name] = compile(path)
   }
 
-  const parse = match(path)
+  const route = match(path)
 
   use((ctx, next) => {
     const req = ctx.req
-    const result = parse(req.url || '/')
 
-    if (result === false || req.method !== method) {
-      return next()
+    if (req.method == method) {
+      const url = parse(req.url || '/')
+      const result = route(url.pathname || '/')
+
+      if (result) {
+        ctx.query = url.query
+        ctx.params = result.params
+
+        return callback(ctx, next)
+      }
     }
 
-    ctx.params = result.params
-    return callback(ctx, next)
+    return next()
   })
 }
 

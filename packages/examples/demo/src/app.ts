@@ -1,4 +1,5 @@
 import { Server } from 'http'
+import { parse } from 'qs'
 import { isNullOrUndefined } from 'util'
 
 import { use, route, redirect, urlFor, listen } from '@zhengxs/koa-hooks'
@@ -8,7 +9,10 @@ import { useSession } from './session'
 route('product.detail', '/api/product/:id', (ctx) => {
   ctx.status = 200
   ctx.type = 'application/json'
-  ctx.body = ctx.params
+  ctx.body = {
+    query: parse(ctx.query),
+    params: ctx.params,
+  }
 })
 
 route('/api/user/info', (ctx) => {
@@ -50,9 +54,13 @@ route('/view', (ctx) => {
 
   sess.view = sess.view || 0
 
+  const link = urlFor('product.detail', { id: 1 }, {
+    query: '?sort=createAt'
+  })
+
   ctx.status = 200
   ctx.type = 'application/json'
-  ctx.body = { view: sess.view++ }
+  ctx.body = { view: sess.view++, link }
 })
 
 use((ctx) => {
