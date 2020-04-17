@@ -15,9 +15,12 @@
     "tslib": "^1.9.0"
   },
   "dependencies": {
+    "finalhandler": "^1.1.2",
     "path-to-regexp": "^6.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/finalhandler": "^1.1.0"
+  },
   "publishConfig": {
     "access": "public"
   },

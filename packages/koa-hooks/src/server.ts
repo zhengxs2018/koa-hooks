@@ -1,6 +1,8 @@
 import { ListenOptions, Server } from 'net'
 import { createServer as serve, IncomingMessage, ServerResponse } from 'http'
-import { isObject } from 'util'
+import { isObject, format } from 'util'
+
+import final from 'finalhandler'
 
 import { create, resolve, destroy, RequestContext } from './context'
 
@@ -19,18 +21,12 @@ export type ErrorHandler = (
   ctx: RequestContext
 ) => Promise<void> | void
 
-let errorhandler: ErrorHandler = fail
+let errorhandler: ErrorHandler = (error: Error, ctx: RequestContext) => {
+  return final(ctx.req, ctx.res)(error)
+}
 
 export function onErrorHandler(handler: ErrorHandler) {
   errorhandler = handler
-}
-
-export function fail(error: Error, ctx: RequestContext) {
-  ctx.status = 500
-  ctx.type = 'text/plan'
-  ctx.body = error.stack
-
-  return respond(ctx)
 }
 
 /** 响应请求内容
@@ -63,12 +59,27 @@ export async function requestListener(
   try {
     await lookup(ctx)
     await respond(ctx)
+  } catch (error) {
+    errorhandler(error, ctx)
+  }
+
+  try {
     await cleanup(ctx)
-  } catch (err) {
-    errorhandler(err, ctx)
+  } catch (error) {
+    onerror(error)
   } finally {
     destroy()
   }
+}
+
+export function onerror(err: Error) {
+  if (!(err instanceof Error))
+    throw new TypeError(format('non-error thrown: %j', err))
+
+  const msg = err.stack || err.toString()
+  console.error()
+  console.error(msg.replace(/^/gm, '  '))
+  console.error()
 }
 
 /** 创建服务 */

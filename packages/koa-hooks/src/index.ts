@@ -7,7 +7,6 @@ export {
   createServer,
   listen,
   respond,
-  fail,
   onErrorHandler,
 } from './server'
 
