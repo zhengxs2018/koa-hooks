@@ -1,15 +1,14 @@
 import { ListenOptions, Server } from 'net'
 import { createServer, IncomingMessage, ServerResponse } from 'http'
 
-import { onerror } from './util'
+import { onerror } from '../lib/util'
 
-// import { init } from './core/runtime'
-import { init, destroy, teardown } from './runtime'
-import { createContext } from './context'
+import { init, destroy, teardown } from '../core/runtime'
+import { createContext } from '../core/context'
+
+import { lookup } from '../hooks'
 
 import { makeResponse, errorHandler } from './response'
-
-import { lookup } from './hooks'
 
 /** 初始化  */
 export async function dispatch(

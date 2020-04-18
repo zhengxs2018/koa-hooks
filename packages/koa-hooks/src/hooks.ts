@@ -3,15 +3,16 @@
  *  @module Hooks
  */
 
-import { get } from './runtime'
-import { RequestContext } from './context'
-import { SeriesTask, runTasks } from './tasks'
+import { get } from './core/runtime'
+import { RequestContext } from './core/context'
+
+import { SeriesTask, runTasks } from './lib/tasks'
 
 /** 请求中间件 */
 export type RequestMiddleware = SeriesTask<RequestContext>
 
 /** 中间件 */
-const middlewares: RequestMiddleware[] = []
+export const middlewares: RequestMiddleware[] = []
 
 /**
  * 添加中间件

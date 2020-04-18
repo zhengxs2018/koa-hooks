@@ -4,7 +4,7 @@
  */
 import { triggerAsyncId } from 'async_hooks'
 
-import { ParallelTask } from './tasks'
+import { ParallelTask } from '../lib/tasks'
 
 import { RequestContext } from './context'
 
@@ -16,7 +16,7 @@ export interface Runtime {
   callbacks: ParallelTask<void>[]
 
   /** 临时缓存，请求结束销毁 */
-  cache: WeakMap<any, any>
+  cache: Map<any, any>
 }
 
 /** 当前请求上下文
@@ -37,7 +37,7 @@ export function init(context: RequestContext): number {
   map.set(asyncId, {
     context: context,
     callbacks: [],
-    cache: new WeakMap(),
+    cache: new Map(),
   })
 
   return asyncId

@@ -31,7 +31,7 @@ export interface RequestContext {
   [extra: string]: any
 }
 
-const context: Partial<RequestContext> = {
+export const context: Partial<RequestContext> = {
   get writable(this: RequestContext) {
     const res = this.res
 

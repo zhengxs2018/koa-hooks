@@ -16,11 +16,13 @@
   },
   "dependencies": {
     "destroy": "^1.0.4",
+    "mkdirp": "^1.0.4",
     "on-finished": "^2.3.0",
     "path-to-regexp": "^6.1.0"
   },
   "devDependencies": {
     "@types/destroy": "^1.0.0",
+    "@types/mkdirp": "^1.0.0",
     "@types/on-finished": "^2.3.1"
   },
   "publishConfig": {

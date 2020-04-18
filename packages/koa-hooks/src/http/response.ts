@@ -11,9 +11,9 @@ import { format, isNullOrUndefined } from 'util'
 import destroy from 'destroy'
 import onFinished from 'on-finished'
 
-import { get } from './runtime'
-import { RequestContext } from './context'
-import { onerror } from './util'
+import { get } from '../core/runtime'
+import { RequestContext } from '../core/context'
+import { onerror } from '../lib/util'
 
 /** 验证是否有效状态码
  *

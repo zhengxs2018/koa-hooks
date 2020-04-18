@@ -31,5 +31,12 @@ export function onerror(err: Error) {
   console.error()
 }
 
+export function createError(
+  message: string,
+  extra?: Record<string, any>
+): Error {
+  return Object.assign(new Error(message), extra)
+}
+
 // 兼容 esm 模块
 export default module.exports

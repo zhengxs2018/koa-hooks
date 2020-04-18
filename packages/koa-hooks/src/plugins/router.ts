@@ -3,7 +3,7 @@ import { parse, URLSearchParams } from 'url'
 
 import { match, compile, PathFunction } from 'path-to-regexp'
 
-import { use, RequestMiddleware } from './hooks'
+import { use, RequestMiddleware } from '../hooks'
 
 /** 命名路由规则 */
 const namedRoutes: Record<string, PathFunction> = {}
