@@ -1,9 +1,4 @@
-import {
-  series,
-  parallel,
-  SeriesTaskHandler,
-  ParallelTaskHandler,
-} from '../../src/tasks'
+import { series, parallel, SeriesTask, ParallelTask } from '../../src/index'
 
 interface User {
   nickname: string
@@ -37,7 +32,7 @@ const sort = (pre: { sort: number }, next: { sort: number }) => {
   return pre.sort - next.sort
 }
 
-const saveMessageToStore: SeriesTaskHandler<TaskContext> = (ctx, next) => {
+const saveMessageToStore: SeriesTask<TaskContext> = (ctx, next) => {
   const { message, process } = ctx
 
   // 生成消息 id
@@ -52,7 +47,7 @@ const saveMessageToStore: SeriesTaskHandler<TaskContext> = (ctx, next) => {
   return next(ctx)
 }
 
-const sendMsgToSocket: ParallelTaskHandler<TaskContext> = (ctx) => {
+const sendMsgToSocket: ParallelTask<TaskContext> = (ctx) => {
   const { message, process } = ctx
 
   // 添加处理结果
@@ -62,7 +57,7 @@ const sendMsgToSocket: ParallelTaskHandler<TaskContext> = (ctx) => {
   })
 }
 
-const pushMsgToWeChat: ParallelTaskHandler<TaskContext> = (ctx) => {
+const pushMsgToWeChat: ParallelTask<TaskContext> = (ctx) => {
   const { message, process } = ctx
   const receiver =
     message.type === 'user' ? message.to.nickname : message.to.name
@@ -74,7 +69,7 @@ const pushMsgToWeChat: ParallelTaskHandler<TaskContext> = (ctx) => {
   })
 }
 
-const pushMsgToDingTalk: ParallelTaskHandler<TaskContext> = (ctx) => {
+const pushMsgToDingTalk: ParallelTask<TaskContext> = (ctx) => {
   const { message, process } = ctx
   const receiver =
     message.type === 'user' ? message.to.nickname : message.to.name

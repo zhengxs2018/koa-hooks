@@ -1,5 +1,4 @@
-import { sleep } from '../../src/util'
-import { parallel } from '../../src/tasks'
+import { sleep, parallel } from '../../src/index'
 
 describe('parallel.spec.ts', () => {
   it('parallel.queue({ plugins: string[] })', async () => {

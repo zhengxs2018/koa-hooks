@@ -15,11 +15,13 @@
     "tslib": "^1.9.0"
   },
   "dependencies": {
-    "finalhandler": "^1.1.2",
+    "destroy": "^1.0.4",
+    "on-finished": "^2.3.0",
     "path-to-regexp": "^6.1.0"
   },
   "devDependencies": {
-    "@types/finalhandler": "^1.1.0"
+    "@types/destroy": "^1.0.0",
+    "@types/on-finished": "^2.3.1"
   },
   "publishConfig": {
     "access": "public"

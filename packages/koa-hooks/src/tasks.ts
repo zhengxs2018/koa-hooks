@@ -1,20 +1,17 @@
 import { flatten } from './util'
 
 export type TaskResult<T> = T | Promise<T>
-export type NextHandler<T> = (value?: T) => TaskResult<any>
-export type ParallelTaskHandler<T> = (value: T) => TaskResult<any>
-export type TaskHandler<T> = (value: T, next: NextHandler<T>) => TaskResult<any>
+export type Next<T> = (value?: T) => TaskResult<any>
+export type ParallelTask<T> = (value: T) => TaskResult<any>
+export type Task<T> = (value: T, next: Next<T>) => TaskResult<any>
 
-export type SyncNextHandler<T> = (value: T) => T
-export type SyncParallelTaskHandler<T> = (value: T) => T
-export type SyncSeriesTaskHandler<T> = (value: T, next: SyncNextHandler<T>) => T
-export type SyncTaskHandler<T> = (value: T, next: SyncNextHandler<T>) => T
+export type SyncNext<T> = (value: T) => T
+export type SyncParallelTask<T> = (value: T) => T
+export type SyncSeriesTask<T> = (value: T, next: SyncNext<T>) => T
+export type SyncTask<T> = (value: T, next: SyncNext<T>) => T
 
 /** 串行任务处理函数 */
-export type SeriesTaskHandler<T> = (
-  value: T,
-  next: NextHandler<T>
-) => TaskResult<any>
+export type SeriesTask<T> = (value: T, next: Next<T>) => TaskResult<any>
 
 /** 串行任务队列管理
  *
@@ -23,9 +20,9 @@ export type SeriesTaskHandler<T> = (
  * @returns 可执行函数
  */
 export function series<T = any>(
-  ...handlers: (SeriesTaskHandler<T> | SeriesTaskHandler<T>[])[]
-): (value: T, next?: NextHandler<T>) => TaskResult<any> {
-  const tasks = flatten<SeriesTaskHandler<T>>(...handlers)
+  ...handlers: (SeriesTask<T> | SeriesTask<T>[])[]
+): (value: T, next?: Next<T>) => TaskResult<any> {
+  const tasks = flatten<SeriesTask<T>>(handlers)
   return async (value, next) => runTasks<T>(tasks.concat(next || []), value)
 }
 
@@ -35,7 +32,7 @@ export function series<T = any>(
  * @param initialValue 初始值
  */
 export async function runTasks<T = any>(
-  tasks: SeriesTaskHandler<T>[],
+  tasks: SeriesTask<T>[],
   initialValue?: T
 ): Promise<T> {
   let index = -1
@@ -85,10 +82,9 @@ export async function runTasks<T = any>(
  * @returns 可执行函数
  */
 export function parallel<T = any>(
-  handler: ParallelTaskHandler<T> | ParallelTaskHandler<T>[],
-  ...handlers: ParallelTaskHandler<T>[]
-): (value: T, next?: NextHandler<T>) => TaskResult<any> {
-  const tasks = flatten<ParallelTaskHandler<T>>(handler, ...handlers)
+  ...handlers: (ParallelTask<T> | ParallelTask<T>[])[]
+): (value: T, next?: Next<T>) => TaskResult<any> {
+  const tasks = flatten<ParallelTask<T>>(handlers)
 
   return async function run(value, next): Promise<T> {
     await Promise.all(tasks.map((task) => task(value)))
@@ -103,14 +99,14 @@ export function parallel<T = any>(
 }
 
 export function seriesSync<T = any>(
-  ...handlers: (SyncTaskHandler<T> | SyncTaskHandler<T>[])[]
-): (value: T, next?: SyncNextHandler<T>) => any {
-  const tasks = flatten<SyncSeriesTaskHandler<T>>(...handlers)
+  ...handlers: (SyncTask<T> | SyncTask<T>[])[]
+): (value: T, next?: SyncNext<T>) => any {
+  const tasks = flatten<SyncSeriesTask<T>>(handlers)
   return (value, next) => runSyncTasks<T>(tasks.concat(next || []), value)
 }
 
 export function runSyncTasks<T = any>(
-  tasks: SyncSeriesTaskHandler<T>[],
+  tasks: SyncSeriesTask<T>[],
   initialValue?: T
 ): T {
   let index = -1

@@ -3,7 +3,7 @@ import { parse, URLSearchParams } from 'url'
 
 import { match, compile, PathFunction } from 'path-to-regexp'
 
-import { use, RequestHandler } from './hooks'
+import { use, RequestMiddleware } from './hooks'
 
 /** 命名路由规则 */
 const namedRoutes: Record<string, PathFunction> = {}
@@ -17,7 +17,11 @@ export type URLForOptions = {
  * @param name         路由名称
  * @param params       路由参数
  */
-export function urlFor(name: string, params?: Record<string, any>, options?: URLForOptions): string {
+export function urlFor(
+  name: string,
+  params?: Record<string, any>,
+  options?: URLForOptions
+): string {
   const query = options?.query
 
   const uri = namedRoutes[name](params || {})
@@ -33,7 +37,7 @@ export function urlFor(name: string, params?: Record<string, any>, options?: URL
  * @param path         匹配路径
  * @param callback     回调函数
  */
-export function route(path: string, callback: RequestHandler): void
+export function route(path: string, callback: RequestMiddleware): void
 
 /** 使用路由匹配
  *
@@ -44,7 +48,7 @@ export function route(path: string, callback: RequestHandler): void
 export function route(
   name: string,
   path: string,
-  callback: RequestHandler
+  callback: RequestMiddleware
 ): void
 
 /** 使用路由匹配
@@ -56,7 +60,7 @@ export function route(
 export function route(
   method: string,
   path: string,
-  callback: RequestHandler
+  callback: RequestMiddleware
 ): void
 
 /** 使用路由匹配
@@ -70,7 +74,7 @@ export function route(
   name: string,
   method: string,
   path: string,
-  callback: RequestHandler
+  callback: RequestMiddleware
 ): void
 export function route() {
   const [name, method, path, callback] = normalizeArgs(Array.from(arguments))
@@ -112,7 +116,7 @@ export function route() {
  */
 function normalizeArgs(
   args: any[]
-): [string | null, string, string, RequestHandler] {
+): [string | null, string, string, RequestMiddleware] {
   if (args.length === 4) {
     const [name, method, path, callback] = args
     return [name, method.toUpperCase(), path, callback]

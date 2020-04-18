@@ -62,7 +62,6 @@
     "editor.formatOnSave":  false,
   },
   "cSpell.words": [
-    "finalhandler",
     "globby",
     "middlewares",
     "todos",

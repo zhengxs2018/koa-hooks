@@ -7,8 +7,7 @@ import { use, route, redirect, urlFor, listen } from '@zhengxs/koa-hooks'
 import { useSession } from './session'
 
 route('product.detail', '/api/product/:id', (ctx) => {
-  ctx.status = 200
-  ctx.type = 'application/json'
+  ctx.statusCode = 200
   ctx.body = {
     query: parse(ctx.query),
     params: ctx.params,
@@ -24,8 +23,7 @@ route('/api/user/info', (ctx) => {
     return redirect(urlFor('login'))
   }
 
-  ctx.status = 200
-  ctx.type = 'application/json'
+  ctx.statusCode = 200
   ctx.body = {
     userId: userId,
     nickname: '张三',
@@ -38,14 +36,10 @@ route('POST', '/login', (ctx) => {
   // 写入用户 id
   sess.userId = 1
 
-  ctx.status = 200
-  ctx.type = 'application/json'
   ctx.body = { code: 200, message: 'ok' }
 })
 
 route('login', '/login', (ctx) => {
-  ctx.status = 200
-  ctx.type = 'text/plan'
   ctx.body = 'This is login page'
 })
 
@@ -62,13 +56,11 @@ route('/view', (ctx) => {
     }
   )
 
-  ctx.status = 200
-  ctx.type = 'application/json'
+  ctx.statusCode = 500
   ctx.body = { view: sess.view++, link }
 })
 
 use((ctx) => {
-  ctx.status = 200
   ctx.body = `hello,world`
 })
 

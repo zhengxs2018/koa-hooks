@@ -1,4 +1,4 @@
-import { series, runTasks, seriesSync, runSyncTasks } from '../../src/tasks'
+import { series, runTasks, seriesSync, runSyncTasks } from '../../src/index'
 
 describe('series.spec.ts', () => {
   it('series.pipeline(string)', async () => {

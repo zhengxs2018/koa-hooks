@@ -1,83 +1,68 @@
+/** 请求上下文
+ *
+ *  @module Context
+ */
 import { IncomingMessage, ServerResponse } from 'http'
-import { triggerAsyncId } from 'async_hooks'
-
-import { ParallelTaskHandler } from './tasks'
 
 /** 请求上下文 */
 export interface RequestContext {
+  /** 当前请求对象 */
   req: IncomingMessage
+
+  /** 当前响应对象 */
   res: ServerResponse
+
+  /** 状态码 */
+  statusCode: number
 
   /** 响应类型 */
   type: string
 
-  /** 状态码 */
-  status: number
-
   /** 响应内容 */
-  body: any
+  body?: any
 
-  /** 需要在请求结束后处理的函数 */
-  handlers: ParallelTaskHandler<RequestContext>[]
+  /** 是否可写 */
+  readonly writable: boolean
 
-  /** 缓存对象 */
-  cache: WeakMap<any, any>
+  /** 请求是否已结束 */
+  readonly finished: boolean
 
-  [key: string]: any
+  /** 可选属性 */
+  [extra: string]: any
 }
 
-/** 请求上下文映射 */
-const contextsMap: Record<number, RequestContext> = {}
+const context: Partial<RequestContext> = {
+  get writable(this: RequestContext) {
+    const res = this.res
+
+    if (res.writableEnded || this.finished) return false
+
+    const socket = res.socket
+    // There are already pending outgoing res, but still writable
+    // https://github.com/nodejs/node/blob/v4.4.7/lib/_http_server.js#L486
+    return !socket || socket.writable
+  },
+  get finished(this: RequestContext) {
+    const res = this.res
+    return res.writableFinished || res.finished
+  },
+}
 
 /** 创建请求上下文
  *
- * @private
+ * @param req   当前请求对象
+ * @param res   当前响应对象
  *
- * @param req http 模块的 IncomingMessage 对象
- * @param res http 模块的 ServerResponse
+ * @returns     上下文对象
  */
-export function create(req: IncomingMessage, res: ServerResponse) {
-  const ctx = Object.create(null)
+export function createContext(
+  req: IncomingMessage,
+  res: ServerResponse
+): RequestContext {
+  const ctx = Object.create(context)
 
   ctx.req = req
   ctx.res = res
-  ctx.handlers = []
-  ctx.cache = new WeakMap()
-  ctx.state = {}
-  ctx.status = 404
-  ctx.type = 'text/plan'
-  ctx.body = 'document not found'
-
-  contextsMap[triggerAsyncId()] = ctx
 
   return ctx
 }
-
-/** 获取当前请求上下文
- *
- * @private
- */
-export function resolve(): RequestContext {
-  const traceId = triggerAsyncId()
-  if (contextsMap.hasOwnProperty(traceId)) {
-    return contextsMap[traceId]
-  }
-
-  throw new TypeError(
-    `The request context with ID '${traceId}' has been corrupted`
-  )
-}
-
-/** 销毁当前请求上下文
- *
- * @private
- */
-export function destroy() {
-  const traceId = triggerAsyncId()
-
-  if (contextsMap.hasOwnProperty(traceId)) {
-    delete contextsMap[traceId]
-  }
-}
-
-export default module.exports
