@@ -11,9 +11,6 @@
     "nodejs",
     "typescript"
   ],
-  "peerDependencies": {
-    "tslib": "^1.9.0"
-  },
   "dependencies": {
     "destroy": "^1.0.4",
     "mkdirp": "^1.0.4",
