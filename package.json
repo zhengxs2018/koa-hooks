@@ -23,7 +23,7 @@
     "cov": "jest --coverage",
     "ci": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
-    "preversion": "npm run format",
+    "preversion": "npm run lint",
     "prepublishOnly": "npm run build"
   },
   "husky": {
