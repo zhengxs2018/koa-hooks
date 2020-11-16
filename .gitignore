@@ -1,10 +1,6 @@
 .DS_Store
 node_modules
 
-# local env files
-.env.local
-.env.*.local
-
 # Log files
 *.log
 npm-debug.log*
@@ -20,17 +16,10 @@ yarn-error.log*
 *.sln
 *.sw?
 
-
 # Unit test
 coverage/
 
 # Build output
 dist/
-dist-docs/
+docs/api
 *.tsbuildinfo
-
-logs/
-run/
-backups/
-
-docs/api/

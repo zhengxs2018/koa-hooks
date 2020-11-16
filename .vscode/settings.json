@@ -16,7 +16,7 @@
     "**/logs/**": true,
     "**/run/**": true,
     "**/dist/**": true,
-    "**/dist-docs/**": true,
+    "**/docs/api/**": true,
     "**/tsconfig.tsbuildinfo": true
   },
   "files.autoSave": "afterDelay",
@@ -42,45 +42,33 @@
     "**/.history/**": true,
     "**/node_modules/**": true,
     "**/dist/**": true,
-    "**/dist-docs/**": true,
+    "**/docs/api/**": true,
     "**/run/**": true,
     "**/tsconfig.tsbuildinfo": true
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "[javascript]":  {
-    "editor.formatOnSave":  false,
+  "[javascript]": {
+    "editor.formatOnSave": false
   },
-  "[javascriptreact]":  {
-    "editor.formatOnSave":  false,
+  "[javascriptreact]": {
+    "editor.formatOnSave": false
   },
-  "[typescript]":  {
-    "editor.formatOnSave":  false,
+  "[typescript]": {
+    "editor.formatOnSave": false
   },
-  "[typescriptreact]":  {
-    "editor.formatOnSave":  false,
+  "[typescriptreact]": {
+    "editor.formatOnSave": false
   },
-  "cSpell.words": [
-    "globby",
-    "middlewares",
-    "todos",
-    "tsnd",
-    "typedoc"
-  ],
-  "cSpell.ignoreWords": [
-    "tslib",
-    "respawn",
-    "dedupe",
-    "preid",
-    "lcov"
-  ],
+  "cSpell.words": ["globby", "middlewares", "todos", "tsnd", "typedoc"],
+  "cSpell.ignoreWords": ["tslib", "respawn", "dedupe", "preid", "lcov"],
   "cSpell.ignorePaths": [
     ".history",
     ".vscode",
     "node_modules",
     "dist",
-    "dist-docs",
+    "docs/api",
     "tsconfig.tsbuildinfo",
     "package-lock.json",
     "yarn.lock"

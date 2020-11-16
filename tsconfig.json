@@ -1,9 +1,36 @@
 {
-  "extends": "./tsconfig-base.json",
-  "references": [
-    { "path": "packages/koa-hooks" }
-  ],
-  /* The remaining fields are necessary to prevent double compilation */
-  "files": [],
-  "include": []
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es2017",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "strictBindCallApply": true,
+
+    /* Additional Checks */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
+
+    /* Module Resolution Options */
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+
+    /* Advanced Options */
+    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

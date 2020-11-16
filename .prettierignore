@@ -1,5 +1,5 @@
-**/.history/
-**/node_modules/
+.history/
+node_modules/
 
-**/dist/
-**/dist-docs/
+dist/
+docs/api/

@@ -59,10 +59,9 @@ use(ctx => {
   ctx.body = `hello,world`
 })
 
-listen(8080, function onReady(this: Server) {
+listen(8080, function onReady() {
   console.log('Liston http://127.0.0.1:8080')
 })
-
 ```
 
 ## 启动项目
@@ -75,7 +74,7 @@ listen(8080, function onReady(this: Server) {
 # 安装依赖，推荐使用 yarn 安装
 $ npm install
 
-# 启动示例工程
+# 启动示例
 $ npm run dev
 ```
 
@@ -97,6 +96,10 @@ $ npm publish
 
 感谢这些开源贡献给予的灵感，以下排名不分先后。
 
+- [Koa.js][koa]
+- [React.js][react]
 - And more
 
 [node.js]: https://nodejs.org/
+[koa]: https://github.com/koajs/koa
+[react]: https://github.com/facebook/react

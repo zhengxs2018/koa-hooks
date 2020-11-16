@@ -1,0 +1,9 @@
+{
+  "debounce": 1000,
+  "interval": 1200,
+  "respawn": true,
+  "preferTs ": true,
+  "notify": false,
+  "dedupe": true,
+  "clear": true
+}

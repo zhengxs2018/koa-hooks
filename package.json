@@ -1,40 +1,42 @@
 {
-  "name": "koa-hooks",
-  "version": "0.0.0",
-  "description": "React hooks & koa 风格的轻量级 web 框架",
-  "private": true,
+  "name": "@zhengxs/koa-hooks",
+  "version": "0.0.2-beta",
+  "description": "React.js hooks + koa.js 风格的轻量级 web 框架",
+  "keywords": [
+    "react hooks",
+    "koa",
+    "framework",
+    "nodejs",
+    "typescript"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "node ./bin/dev.js",
+    "dev": "tsnd ./playground/main.ts",
+    "debug": "tsnd --inspect ./playground/main.ts",
     "build": "tsc -b",
     "watch": "tsc -b -w --preserveWatchOutput",
-    "docs:build": "typedoc --options typedoc.js packages/koa-hooks",
+    "doc": "typedoc --options typedoc.js src",
+    "lint": "eslint **/*.ts",
+    "format": "prettier '**/*.{js,json,ts}' --write",
     "test": "jest",
     "cov": "jest --coverage",
     "ci": "jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "lint": "prettier --parser=typescript  **/*.js ./packages/**/*.ts --write",
     "commit": "git-cz",
-    "clean": "rimraf docs packages/**/dist packages/**/tsconfig.tsbuildinfo",
-    "clean:force": "npm run clean && rimraf packages/*/node_modules",
-    "release": "cross-env HUSKY_BYPASS=true lerna publish from-git --yes",
-    "canary": "cross-env HUSKY_BYPASS=true lerna publish --canary --npm-tag=next --yes",
-    "preversion": "npm run lint",
+    "preversion": "npm run format",
     "prepublishOnly": "npm run build"
   },
-  "workspaces": [
-    "packages/koa-hooks",
-    "packages/examples/*"
-  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write"
+    "*.ts": [
+      "eslint --fix"
     ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
+    "*.{js,json}": [
+      "prettier --write"
     ]
   },
   "config": {
@@ -45,35 +47,59 @@
       "config": "./cz-config.js"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "inquirer": "^7.1.0"
+    "destroy": "^1.0.4",
+    "mkdirp": "^1.0.4",
+    "on-finished": "^2.3.0",
+    "path-to-regexp": "^6.1.0",
+    "tslib": "^2.0.3"
   },
   "devDependencies": {
-    "@types/concurrently": "^5.1.0",
+    "@types/destroy": "^1.0.0",
     "@types/inquirer": "^6.5.0",
     "@types/jest": "^25.1.5",
+    "@types/mkdirp": "^1.0.0",
     "@types/node": "^13.11.0",
+    "@types/on-finished": "^2.3.1",
+    "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
     "commitizen": "^4.0.3",
-    "concurrently": "^5.1.0",
-    "cross-env": "^7.0.2",
+    "cookies": "^0.8.0",
     "cz-conventional-changelog": "^3.1.0",
     "cz-customizable": "^6.2.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "globby": "^11.0.0",
     "husky": "^4.2.3",
     "jest": "^25.2.7",
-    "lerna": "^3.20.2",
     "lint-staged": "^10.1.1",
     "prettier": "^2.0.2",
-    "rimraf": "^3.0.2",
     "ts-jest": "^25.3.0",
     "ts-node": "^8.8.2",
     "ts-node-dev": "^1.0.0-pre.44",
     "typedoc": "^0.17.4",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "uuid": "^8.3.1"
   },
   "engines": {
-    "node": ">=11.0.0",
-    "npm": ">=6.0.0"
+    "node": ">= 10.x",
+    "npm": ">= 6.x"
+  },
+  "homepage": "https://github.com/zhengxs2018/koa-hooks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhengxs2018/koa-hooks"
+  },
+  "bugs": {
+    "url": "https://github.com/zhengxs2018/koa-hooks/issues"
   },
   "author": {
     "name": "zhengxs",
